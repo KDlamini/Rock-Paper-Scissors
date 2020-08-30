@@ -1,8 +1,10 @@
+//Declare variables globally
 let wins = 0,
     loses = 0,
     tie = 0,
     count = 1;
 
+//Create a function that will handle the computers selection
 function computerPlay() {
     const computerChoice = ["rock", "paper", "scissors"]
     let num = Math.floor(Math.random() * 3);
@@ -10,9 +12,9 @@ function computerPlay() {
     return computerChoice[num];
 }
 
+//Create a function that will handle conditions for player and computer's selection and console result
 function playRound(playerSelection, computerSelection) {
     let result =  "";
-    let computer = "";
 
     if (playerSelection == "rock" && computerSelection == "scissors") {
         result =  "You Win! Rock beats Scisssors";
@@ -35,6 +37,7 @@ function playRound(playerSelection, computerSelection) {
         result = "It's a Tie!";
     }
 
+    //count wins and loses per round
     if (result.slice(4, 7) == "Win") {
         wins += 1;
     }
@@ -47,17 +50,20 @@ function playRound(playerSelection, computerSelection) {
     return "Computer play: " + computerSelection + "!\n" + result;
 }
 
+//play game and console results
 function game() {
     let player =  prompt("Pick your choice: rock, paper, or scissors!");
 
     console.log(playRound(player, computerPlay()));
 }
 
+//loop the game function for 5 rounds
 while (count <= 5) {
     game();
     count++;
 }
 
+//handle results after all rounds have been completed
 if (wins > loses) {
     console.log(
         "Wins: " + wins +
