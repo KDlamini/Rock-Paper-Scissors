@@ -1,3 +1,8 @@
+let wins = 0,
+    loses = 0,
+    tie = 0,
+    count = 1;
+
 function computerPlay() {
     const computerChoice = ["rock", "paper", "scissors"]
     let num = Math.floor(Math.random() * 3);
@@ -7,6 +12,7 @@ function computerPlay() {
 
 function playRound(playerSelection, computerSelection) {
     let result =  "";
+    let computer = "";
 
     if (playerSelection == "rock" && computerSelection == "scissors") {
         result =  "You Win! Rock beats Scisssors";
@@ -29,5 +35,49 @@ function playRound(playerSelection, computerSelection) {
         result = "It's a Tie!";
     }
 
-    return result;
+    if (result.slice(4, 7) == "Win") {
+        wins += 1;
+    }
+    else if (result.slice(4, 8) == "Lose") {
+        loses += 1;
+    } else {
+        tie += 1;
+    }
+
+    return "Computer play: " + computerSelection + "!\n" + result;
+}
+
+function game() {
+    let player =  prompt("Pick your choice: rock, paper, or scissors!");
+
+    console.log(playRound(player, computerPlay()));
+}
+
+while (count <= 5) {
+    game();
+    count++;
+}
+
+if (wins > loses) {
+    console.log(
+        "Wins: " + wins +
+        "\nComputer wins: " + loses +
+        "\nTies: " + tie +
+        "\n\nYOU WIN!!!"
+    );
+}
+else if (wins < loses) {
+    console.log(
+        "Wins: " + wins +
+        "\nComputer wins: " + loses +
+        "\nTies: " + tie +
+        "\n\nYOU LOSE!!!"
+    );
+} else {
+    console.log(
+        "Wins: " + wins +
+        "\nComputer wins: " + loses +
+        "\nTies: " + tie +
+        "\n\nIT'S A TIE!!!"
+    );
 }
