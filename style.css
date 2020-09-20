@@ -1,0 +1,27 @@
+:root {
+    --color: rgb(88, 84, 84);
+    text-align: center;
+}
+
+body {
+    color: var(--color);
+    font-family: sans-serif;
+}
+
+.input {
+    width: 120px;
+    margin: 5px auto;
+}
+
+#output {
+    margin: 20px auto;
+    padding: 5px;
+    color: rgb(21, 0, 36);
+    border: 2px solid var(--color);
+    border-radius: 5px;
+    overflow: auto;
+}
+
+.clear {
+    margin-left: 10px;
+}

@@ -1,15 +1,32 @@
+//Retrive DOM elements
+const input = document.querySelectorAll(".input");
+let outputField = document.querySelector("#output")
+const results = document.querySelector("#results")
+const clearBtn = document.querySelector(".clear")
+
 //Declare variables globally
 let wins = 0,
     loses = 0,
     tie = 0,
-    count = 1;
+    cache = "";
+
+//Retrive input values and play game
+input.forEach(element => {
+    element.addEventListener('click', (e) => {
+        //reset automatically if player continues without clearing
+        if (outputField.value == cache) {
+            clear();
+        }
+        game(e.target.value);
+    })
+});
 
 //Create a function that will handle the computers selection
 function computerPlay() {
-    const computerChoice = ["rock", "paper", "scissors"]
-    let num = Math.floor(Math.random() * 3);
+    const selection = ["rock", "paper", "scissors"]
+    let index = Math.floor(Math.random() * 3);
 
-    return computerChoice[num];
+    return selection[index];
 }
 
 //Create a function that will handle conditions for player and computer's selection and console result
@@ -17,7 +34,7 @@ function playRound(playerSelection, computerSelection) {
     let result =  "";
 
     if (playerSelection == "rock" && computerSelection == "scissors") {
-        result =  "You Win! Rock beats Scisssors";
+        result =  "You Win! Rock beats Scissors";
     } 
     else if (playerSelection == "rock" && computerSelection == "paper") {
         result = "You Lose! Paper beats Rock";
@@ -50,40 +67,42 @@ function playRound(playerSelection, computerSelection) {
     return "Computer play: " + computerSelection + "!\n" + result;
 }
 
-//play game and console results
-function game() {
-    let player =  prompt("Pick your choice: rock, paper, or scissors!");
-
-    console.log(playRound(player, computerPlay()));
+//play game and output results
+function game(play) {
+    outputField.value += playRound(play, computerPlay()) + "\n\n";
 }
 
-//loop the game function for 5 rounds
-while (count <= 5) {
-    game();
-    count++;
+ //handle results after all rounds have been completed
+function displayResults() {
+    if (wins > loses) {
+        outputField.value = "Wins: " + wins +
+                            "\nComputer wins: " + loses +
+                            "\nTies: " + tie +
+                            "\n\nYOU WIN!!!";
+    }
+    else if (wins < loses) {
+        outputField.value = "Wins: " + wins +
+                            "\nComputer wins: " + loses +
+                            "\nTies: " + tie +
+                            "\n\nYOU LOSE!!!";
+    } else {
+        outputField.value = "Wins: " + wins +
+                            "\nComputer wins: " + loses +
+                            "\nTies: " + tie +
+                            "\n\nIT'S A TIE!!!";
+    }
+    
+    cache = outputField.value;
 }
 
-//handle results after all rounds have been completed
-if (wins > loses) {
-    console.log(
-        "Wins: " + wins +
-        "\nComputer wins: " + loses +
-        "\nTies: " + tie +
-        "\n\nYOU WIN!!!"
-    );
+//clear all fields and start afresh
+function clear() {
+    outputField.value = "";
+    wins = 0;
+    loses = 0;
+    tie = 0;
+    cache = "";
 }
-else if (wins < loses) {
-    console.log(
-        "Wins: " + wins +
-        "\nComputer wins: " + loses +
-        "\nTies: " + tie +
-        "\n\nYOU LOSE!!!"
-    );
-} else {
-    console.log(
-        "Wins: " + wins +
-        "\nComputer wins: " + loses +
-        "\nTies: " + tie +
-        "\n\nIT'S A TIE!!!"
-    );
-}
+
+clearBtn.addEventListener('click', clear);
+results.addEventListener('click', displayResults);
