@@ -1,6 +1,6 @@
 //Retrive DOM elements
 const input = document.querySelectorAll(".input");
-let outputField = document.querySelector("#output")
+let display = document.querySelector("#output")
 const results = document.querySelector("#results")
 const clearBtn = document.querySelector(".clear")
 
@@ -10,18 +10,18 @@ let wins = 0,
     tie = 0,
     cache = "";
 
-//Retrive input values and play game
+//Retrive user input values and play game
 input.forEach(element => {
     element.addEventListener('click', (e) => {
         //reset automatically if player continues without clearing
-        if (outputField.value == cache) {
+        if (display.value == cache) {
             clear();
         }
         game(e.target.value);
     })
 });
 
-//Create a function that will handle the computers selection
+//Handle the computers selection
 function computerPlay() {
     const selection = ["rock", "paper", "scissors"]
     let index = Math.floor(Math.random() * 3);
@@ -29,7 +29,7 @@ function computerPlay() {
     return selection[index];
 }
 
-//Create a function that will handle conditions for player and computer's selection and console result
+//Handle conditions for player and computer's selection
 function playRound(playerSelection, computerSelection) {
     let result =  "";
 
@@ -54,7 +54,17 @@ function playRound(playerSelection, computerSelection) {
         result = "It's a Tie!";
     }
 
-    //count wins and loses per round
+    countWins(result);
+    return "Computer play: " + computerSelection + "!\n" + result;
+}
+
+//Play game and display output
+function game(player) {
+    display.value += playRound(player, computerPlay()) + "\n\n";
+}
+
+//Count wins and loses per round
+function countWins(result) {
     if (result.slice(4, 7) == "Win") {
         wins += 1;
     }
@@ -63,41 +73,30 @@ function playRound(playerSelection, computerSelection) {
     } else {
         tie += 1;
     }
-
-    return "Computer play: " + computerSelection + "!\n" + result;
 }
 
-//play game and output results
-function game(play) {
-    outputField.value += playRound(play, computerPlay()) + "\n\n";
-}
-
- //handle results after all rounds have been completed
+ //Handle results after rounds have been completed
 function displayResults() {
+    display.value = "Wins: " + wins +
+                    "\nComputer wins: " + loses +
+                    "\nTies: " + tie
+     
     if (wins > loses) {
-        outputField.value = "Wins: " + wins +
-                            "\nComputer wins: " + loses +
-                            "\nTies: " + tie +
-                            "\n\nYOU WIN!!!";
-    }
-    else if (wins < loses) {
-        outputField.value = "Wins: " + wins +
-                            "\nComputer wins: " + loses +
-                            "\nTies: " + tie +
-                            "\n\nYOU LOSE!!!";
+        display.value += "\n\nYOU WIN!!!";
+
+    }else if (wins < loses) {
+        display.value += "\n\nYOU LOSE!!!";
+
     } else {
-        outputField.value = "Wins: " + wins +
-                            "\nComputer wins: " + loses +
-                            "\nTies: " + tie +
-                            "\n\nIT'S A TIE!!!";
+        display.value += "\n\nIT'S A TIE!!!";
     }
     
-    cache = outputField.value;
+    cache = display.value;
 }
 
-//clear all fields and start afresh
+//Clear all fields and start again
 function clear() {
-    outputField.value = "";
+    display.value = "";
     wins = 0;
     loses = 0;
     tie = 0;
