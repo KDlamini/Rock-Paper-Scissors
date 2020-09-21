@@ -18,6 +18,7 @@ input.forEach(element => {
             clear();
         }
         game(e.target.value);
+        updateScroll();
     })
 });
 
@@ -101,6 +102,11 @@ function clear() {
     loses = 0;
     tie = 0;
     cache = "";
+}
+
+//Handle content, keep scroll down unless user scolls up
+function updateScroll() {
+    display.scrollTop = display.scrollHeight;
 }
 
 clearBtn.addEventListener('click', clear);
